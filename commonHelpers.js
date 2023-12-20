@@ -7,5 +7,5 @@ import"./assets/modulepreload-polyfill-ec808ebb.js";/* empty css                
         alt="${o.description}"
       />
     </a>
-  </li>`).join("");a.insertAdjacentHTML("beforeend",t);new p(".gallery a",{captions:!0,captionType:"attr",captionsData:"alt",captionPosition:"bottom",captionDelay:250});
+  </li>`).join("");a.insertAdjacentHTML("beforeend",t);new p(".gallery a",{captionsData:"alt",captionDelay:250});
 //# sourceMappingURL=commonHelpers.js.map
