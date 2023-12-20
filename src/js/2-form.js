@@ -1,37 +1,37 @@
 const form = document.querySelector('.feedback-form');
 let formData = JSON.parse(localStorage.getItem('feedback-form-state')) || {};
+const emailInput = document.querySelector('input[name="email"]');
+const messageInput = document.querySelector('textarea[name="message"]');
+
+window.addEventListener('load', () => {
+  const { email, message } = formData;
+  if (email || message) {
+    emailInput.value = email || '';
+    messageInput.value = message || '';
+  }
+});
 
 form.addEventListener('input', event => {
-  if (
-    (event.target.nodeName === 'INPUT' && event.target.type === 'email') ||
-    event.target.nodeName === 'TEXTAREA'
-  ) {
-    formData[event.target.name] = event.target.value.trim();
-    localStorage.setItem('feedback-form-state', JSON.stringify(formData));
-  }
+  formData[event.target.name] = event.target.value.trim();
+  localStorage.setItem('feedback-form-state', JSON.stringify(formData));
 });
 
 form.addEventListener('submit', event => {
   event.preventDefault();
 
-  const emailInput = document.querySelector('input[name="email"]');
-  emailInput.value = formData.email || '';
+  const { email, message } = formData;
+  emailInput.value = email || '';
+  messageInput.value = message || '';
 
-  const otherInputs = document.querySelectorAll('input:not([name="email"])');
-  otherInputs.forEach(input => {
-    input.value = formData[input.name] || '';
-  });
-
-  let isFormValid = true;
-  for (let key in formData) {
-    if (!formData[key]) {
-      isFormValid = false;
-      break;
-    }
-  }
-
-  if (isFormValid) {
+  const isFormValid = Object.values(formData).some(
+    value => value.trim() !== ''
+  );
+  console.log(isFormValid);
+  if (!isFormValid) {
+    alert('Fill in all fields');
+  } else {
     console.log(formData);
+    formData = {};
     localStorage.removeItem('feedback-form-state');
     form.reset();
   }
